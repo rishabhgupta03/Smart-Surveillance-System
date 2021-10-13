@@ -1,5 +1,5 @@
 import tkinter  as tk, threading
-import imageio
+
 import tkinter.font as font
 from PIL import Image, ImageTk
 
