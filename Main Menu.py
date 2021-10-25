@@ -1,5 +1,9 @@
 import tkinter  as tk
 import tkinter.font as font
+from in_out import in_out
+from record import record
+from identify import maincall
+from find_motion import  find_motion
 from PIL import Image, ImageTk
 
 window = tk.Tk()
@@ -53,22 +57,22 @@ btn6_image=ImageTk.PhotoImage(btn6_image)
 #-----Button-------#
 
 btn_font = font.Font(size=20)
-btn1 = tk.Button(frame3, text='Anti-theft', height=90, width=180, fg='white',bg='#05386B', image=btn1_image, compound='left')
+btn1 = tk.Button(frame3, text='Anti-theft', height=90, width=180, fg='white',bg='#05386B', image=btn1_image, compound='left',command=find_motion)
 btn1['font'] = btn_font
 btn1.grid(row=1,column=0, pady=(20,10), padx=10)
 
 btn_font = font.Font(size=20)
-btn2 = tk.Button(frame3, text='Identify', height=90, width=180, fg='white',bg='#05386B', image=btn2_image, compound='left')
+btn2 = tk.Button(frame3, text='Identify', height=90, width=180, fg='white',bg='#05386B', image=btn2_image, compound='left',command=maincall)
 btn2['font'] = btn_font
 btn2.grid(row=1,column=1, pady=(20,10), padx=10)
 
 btn_font = font.Font(size=20)
-btn3 = tk.Button(frame3, text='Record', height=90, width=180, fg='white',bg='#05386B', image=btn3_image, compound='left')
+btn3 = tk.Button(frame3, text='Record', height=90, width=180, fg='white',bg='#05386B', image=btn3_image, compound='left',command=record)
 btn3['font'] = btn_font
 btn3.grid(row=1,column=2, pady=(20,10),padx=10)
 
 btn_font = font.Font(size=20)
-btn4 = tk.Button(frame3, text='Visitors', height=90, width=180, fg='white',bg='#05386B', image=btn4_image, compound='left')
+btn4 = tk.Button(frame3, text='Visitors', height=90, width=180, fg='white',bg='#05386B', image=btn4_image, compound='left',command=in_out)
 btn4['font'] = btn_font
 btn4.grid(row=2,column=0, pady=(20,10), padx =10)
 

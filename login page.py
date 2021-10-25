@@ -18,11 +18,15 @@ label_icon.pack()
 
 
 frame2=tk.Frame(window)
-user_name=tk.Label(frame2,text="Username").grid(row=0,column=0)
+user_name=tk.Label(frame2,text="User ID").grid(row=0,column=0)
 user_pass=tk.Label(frame2,text="Password").grid(row=1,column=0)
+
 Log_in_button=tk.Button(frame2,text="Log in").grid(row=2,column=1)
+
 user_name_input_area = tk.Entry(frame2,width = 30).grid(row=0,column=1, pady=3,padx=4)
-user_password_entry_area = tk.Entry(frame2,width = 30).grid(row=1,column=1,pady=3,padx=4)
+user_password_entry_area = tk.Entry(frame2,width = 30,show='*').grid(row=1,column=1,pady=3,padx=4)
+
+
 
 frame3=tk.Frame(window)
 Choice=tk.Label(frame3,text="OR")
