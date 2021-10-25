@@ -27,7 +27,7 @@ def collect_data():
 			cv2.rectangle(frm, (x,y), (x+w, y+h), (0,255,0), 2)
 			roi = gray[y:y+h, x:x+w]
 
-			cv2.imwrite(f"persons\{name}-{count}-{ids}.jpg", roi)
+			cv2.imwrite(f"persons/{name}-{count}-{ids}.jpg", roi)
 			count = count + 1
 			cv2.putText(frm, f"{count}", (20,20), cv2.FONT_HERSHEY_PLAIN, 2, (0,255,0), 3)
 			cv2.imshow("new", roi)
@@ -74,7 +74,7 @@ def identify():
 	paths = [os.path.join("persons", im) for im in os.listdir("persons")]
 	labelslist = {}
 	for path in paths:
-		labelslist[path.split('/')[-1].split('-')[2].split('.')[0]] = path.split('/')[-1].split('-')[0]
+		labelslist[path.split('/')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
 
 	print(labelslist)
 	recog = cv2.face.LBPHFaceRecognizer_create()

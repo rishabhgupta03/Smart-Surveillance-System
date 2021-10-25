@@ -42,14 +42,18 @@ def in_out():
                     print("to left")
                     x = 300
                     right, left = "", ""
-                    cv2.imwrite(f"visitors/in/{datetime.now().strftime('%-y-%-m-%-d-%H:%M:%S')}.jpg", frame1)
+                    now = datetime.now()
+                    name = now.strftime('%y_%m_%d__%H_%M_%S')
+                    cv2.imwrite(f"visitors/in/%s.jpg" % name, frame1)
             
         elif left:
                 if x > 500:
                     print("to right")
                     x = 300
                     right, left = "", ""
-                    cv2.imwrite(f"visitors/out/{datetime.now().strftime('%-y-%-m-%-d-%H:%M:%S')}.jpg", frame1)
+                    now = datetime.now()
+                    name = now.strftime('%y_%m_%d__%H_%M_%S')
+                    cv2.imwrite(f"visitors/out/%s.jpg" % name, frame1)
             
             
         
