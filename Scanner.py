@@ -1,11 +1,11 @@
 import cv2
-import Database_operation as dt
+from Database_Operations import  database
 import pyzbar.pyzbar as pyzbar
 
 def Qr_scan():
     img=cv2.VideoCapture(0)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    prev_rollno=0
+
 
     while True:
         success, frame= img.read()
@@ -14,16 +14,16 @@ def Qr_scan():
         for object in decoded:
             (x,y,w,h)=object.rect
             cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,255),3)
-            a2=dt.database()
+            a2=database()
             rollno=str(object[0], 'utf-8')
-            check=a2.verify(rollno)
+            rollno_l=rollno.split('/')
+            print(rollno_l)
+            check=a2.verify(rollno_l[0],rollno_l[1])
 
-            if(check==False):
-                if(prev_rollno!=rollno):
-                    a2=dt.database()
-                    a2.attendance(rollno)
+            if(check==True):
+
                 cv2.putText(frame,"DETECTED",(x,y),font,1,(0,255,0),2)
-                prev_rollno=rollno
+
             else:
                 cv2.putText(frame, "INVALID", (x, y), font, 1, (0, 255, 0), 2)
 
@@ -33,4 +33,3 @@ def Qr_scan():
             break
 
 Qr_scan()
-dt.database().display_attendance()
