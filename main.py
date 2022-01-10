@@ -2,6 +2,7 @@ import sqlite3
 import tkinter  as tk
 import tkinter.font as font
 from tkinter import ttk,messagebox
+import re
 
 import Email
 from in_out import in_out
@@ -29,19 +30,19 @@ class tkinterApp(tk.Tk):
         self.iconphoto(False, tk.PhotoImage(file='Images\main_icon.png'))
         self.geometry('1080x760')
         self.configure(bg='#4FBDBA')
-        #self.attributes('-fullscreen',True)
+
 
 
 
 
         header = tk.Frame(self)
         self.icon = Image.open('Images\Main logo.png')
-        self.icon = self.icon.resize((150, 50),Image.ANTIALIAS)
+        self.icon = self.icon.resize((180, 78),Image.ANTIALIAS)
         self.icon = ImageTk.PhotoImage(self.icon)
         label_icon = tk.Label(header, image=self.icon)
 
         self.label_title = tk.Label(header, text="SMART SURVEILLANCE SYSTEM")
-        self.label_font = font.Font(size=20, weight='bold', family='Helvetica')
+        self.label_font = font.Font(size=35, weight='bold', family='Helvetica')
         self.label_title['font'] = self.label_font
         self.label_title['bg'] = '#072227'
         self.label_title['fg'] = '#AEFEFF'
@@ -84,7 +85,7 @@ class tkinterApp(tk.Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.config(bg="#4FBDBA")
-            frame.grid(row=1, sticky="NSEW")
+            frame.grid(row=1,padx=(130,10) ,sticky="NSEW")
 
         self.show_frame(LoginPage)
 
@@ -128,7 +129,7 @@ class LoginPage(tk.Frame):
 
         Log_in_button = tk.Button(login, text="Log in",bg='#000080',fg="#FDFDFD",width=20, command = lambda : self.check_login(controller)).grid(row=3, column=1,sticky=tk.NS)
         login.config(bg="#4FBDBA")
-        login.grid(row=3,column=0,sticky=tk.NS,pady=(20,20),padx=(220,10))
+        login.grid(row=3,column=0,sticky=tk.NS,pady=(10,10),padx=(220,10))
 
         text=tk.Label(self, text = "OR")
         self.label_font = font.Font(size=10, weight='bold', family='Helvetica')
@@ -139,7 +140,7 @@ class LoginPage(tk.Frame):
         self.Qr_image = Image.open('Images/Buttons/anti theft.png')
         self.Qr_image = self.Qr_image.resize((150, 150), Image.ANTIALIAS)
         self.Qr_image = ImageTk.PhotoImage(self.Qr_image)
-        QR_button = tk.Button(self, text="Scan QR-Code",bg="#000080",fg="#FDFDFD",width=24, command = lambda : self.Qr_Scan(controller)).grid(row=5, column=0,pady=(20,20),padx=(250,10), sticky=tk.NE)
+        QR_button = tk.Button(self, text="Scan QR-Code",bg="#000080",fg="#FDFDFD",width=22, command = lambda : self.Qr_Scan(controller)).grid(row=5, column=0,pady=(10,10),padx=(250,10), sticky=tk.NE)
 
     def check_login(self,controller):
 
@@ -274,47 +275,62 @@ class RegisterPage(tk.Frame):
         parent.columnconfigure(0, weight=2)
         parent.columnconfigure(1, weight=4)
 
+        page_heading = tk.Label(self, text="REGISTER NEW USER")
+        self.label_font = font.Font(size=30, weight='bold', family='Helvetica')
+        page_heading['font'] = self.label_font
+        page_heading['bg'] = '#4FBDBA'
+        page_heading.grid(pady=(10, 10), padx=(10, 10), row=0, column=0, sticky=tk.NS)
+
+
         register = tk.Frame(self)
-        tk.Label(register, text="User Name", bg='#4FBDBA').grid(row=0, column=0)
-        tk.Label(register, text=" Email ID", bg='#4FBDBA').grid(row=1, column=0)
-        tk.Label(register, text="Phone", bg='#4FBDBA').grid(row=2, column=0)
-        tk.Label(register, text="PIN", bg='#4FBDBA').grid(row=3, column=0)
-        tk.Label(register,text="Confirm Password",bg='#4FBDBA').grid(row=4, column=0)
+        tk.Label(register, text="User Name", bg='#4FBDBA',font=('Helvetica',12)).grid(row=1, column=0,sticky=tk.NW,pady=(10,2))
+        tk.Label(register, text=" Email ID", bg='#4FBDBA',font=('Helvetica',12)).grid(row=3, column=0,sticky=tk.NW,pady=(10,2))
+        tk.Label(register, text="Phone", bg='#4FBDBA',font=('Helvetica',12)).grid(row=5, column=0,sticky=tk.NW,pady=(10,2))
+        tk.Label(register, text="PIN", bg='#4FBDBA',font=('Helvetica',12)).grid(row=7, column=0,sticky=tk.NW,pady=(10,2))
+        tk.Label(register,text="Confirm PIN",bg='#4FBDBA',font=('Helvetica',12)).grid(row=9, column=0,sticky=tk.NW,pady=(10,2))
 
-        self.user_name = tk.Entry(register, width=40)
-        self.user_name.grid(row=0, column=1, pady=3, padx=4)
+        self.user_name = tk.Entry(register, width=70)
+        self.user_name.grid(row=2, column=0, pady=5, padx=4,sticky=tk.NS,ipady=3)
 
-        self.user_mail = tk.Entry(register, width=40)
-        self.user_mail.grid(row=1, column=1, pady=3, padx=4)
+        self.user_mail = tk.Entry(register, width=70)
+        self.user_mail.grid(row=4, column=0, pady=5, padx=4,sticky=tk.NS,ipady=3)
 
-        self.user_phone = tk.Entry(register, width=40)
-        self.user_phone.grid(row=2, column=1, pady=3, padx=4)
+        self.user_phone = tk.Entry(register, width=70)
+        self.user_phone.grid(row=6, column=0, pady=5, padx=4,sticky=tk.NS,ipady=3)
 
-        self.user_pass = tk.Entry(register, width=40,show='*')
-        self.user_pass.grid(row=3, column=1, pady=3, padx=4)
+        self.user_pass = tk.Entry(register, width=70,show='*')
+        self.user_pass.grid(row=8, column=0, pady=5, padx=4,sticky=tk.NS,ipady=3)
 
-        self.user_Cpass = tk.Entry(register, width=40, show='*')
-        self.user_Cpass.grid(row=4, column=1, pady=3, padx=4)
+        self.user_Cpass = tk.Entry(register, width=70, show='*')
+        self.user_Cpass.grid(row=10, column=0, pady=5, padx=4,sticky=tk.NS,ipady=3)
 
-        tk.Button(self, text="Register", bg="#000080", fg="#FDFDFD",command= lambda:self.input_database()).grid(row=5, column=1, pady=(20, 40), sticky=tk.NS)
-        tk.Button(self, text="Back", bg="#000080", fg="#FDFDFD",command=lambda:controller.show_frame(Mainmenu)).grid(row=0,column=1,pady=(20,40),sticky=tk.NE)
+        tk.Button(self, text="Register", bg="#000080", fg="#FDFDFD",width=20,command= lambda:self.input_database()).grid(row=11, column=0, pady=(20, 40), sticky=tk.NS)
+        tk.Button(self, text="Back", bg="#000080", fg="#FDFDFD",command=lambda:controller.show_frame(Mainmenu)).grid(row=11,column=1,pady=(20,40),sticky=tk.NE)
         register.config(bg="#4FBDBA")
-        register.grid(row=0, column=0, sticky=tk.NS)
+        register.grid(row=1, column=0, sticky=tk.NW)
 
     def input_database(self):
+        regex_mail = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        regex_phone=r'^[0-9]{10}$'
+
         if(self.user_name.get()=="" or
           self.user_mail.get()==""  or
           self.user_phone.get()=="" or
           self.user_pass.get()==""  or
           self.user_Cpass.get()==""):
             messagebox.showerror("Empty Fields", "All Fields required", parent=self)
-        elif(len(self.user_phone.get())!=10):
+
+        elif (not (re.fullmatch(regex_mail, (str(self.user_mail.get()))))):
+            messagebox.showerror("Error", "Invalid Email ID", parent=self)
+        elif(not (re.fullmatch(regex_phone, (self.user_phone.get())))):
             messagebox.showerror("Invalid Entry", "Enter valid phone number.", parent=self)
         elif(not(self.user_pass.get().isnumeric())):
             messagebox.showerror("Invalid Entry", "PIN can only contain numeric values.", parent=self)
 
         elif(self.user_pass.get()!=self.user_Cpass.get()) :
             messagebox.showerror("Error", "PIN Doesn't Match", parent=self)
+
+
 
         else:
 
@@ -354,4 +370,5 @@ if __name__ == "__main__":
     db=database()
     db.set_all_status()
     app = tkinterApp()
+    app.resizable(True, True)
     app.mainloop()
