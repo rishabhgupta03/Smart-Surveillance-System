@@ -137,9 +137,7 @@ class LoginPage(tk.Frame):
         text['bg'] = '#4FBDBA'
         text.grid(pady=(5, 5),padx=(280,10),row=4, column=0, sticky=tk.NS)
 
-        self.Qr_image = Image.open('Images/Buttons/anti theft.png')
-        self.Qr_image = self.Qr_image.resize((150, 150), Image.ANTIALIAS)
-        self.Qr_image = ImageTk.PhotoImage(self.Qr_image)
+
         QR_button = tk.Button(self, text="Scan QR-Code",bg="#000080",fg="#FDFDFD",width=22, command = lambda : self.Qr_Scan(controller)).grid(row=5, column=0,pady=(10,10),padx=(250,10), sticky=tk.NE)
 
     def check_login(self,controller):
