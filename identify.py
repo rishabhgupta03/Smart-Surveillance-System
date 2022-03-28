@@ -47,17 +47,19 @@ def train():
 
 	recog = cv2.face.LBPHFaceRecognizer_create()
 
-	dataset = 'persons'
+	dataset = os.path.join(os.getcwd(),"persons\\")
 
-	paths = [os.path.join(dataset, im) for im in os.listdir(dataset)]
+	paths = [os.path.join(dataset, im) for im in os.listdir(dataset) if not im.startswith("Thumbs.db")]
+
+
 
 	faces = []
 	ids = []
 	labels = []
 	for path in paths:
-		labels.append(path.split('/')[-1].split('-')[0])
+		labels.append(path.split('\\')[-1].split('-')[0])
 
-		ids.append(int(path.split('/')[-1].split('-')[2].split('.')[0]))
+		ids.append(int(path.split('\\')[-1].split('-')[2].split('.')[0]))
 
 		faces.append(cv2.imread(path, 0))
 
@@ -72,10 +74,10 @@ def identify():
 
 	filename = "haarcascade_frontalface_default.xml"
 
-	paths = [os.path.join("persons", im) for im in os.listdir("persons")]
+	paths = [os.path.join("persons", im) for im in os.listdir("persons") if	 not im.startswith("Thumbs.db") ]
 	labelslist = {}
 	for path in paths:
-		labelslist[path.split('/')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
+		labelslist[path.split('\\')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
 
 	print(labelslist)
 	recog = cv2.face.LBPHFaceRecognizer_create()
