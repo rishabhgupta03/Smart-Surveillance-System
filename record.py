@@ -16,7 +16,7 @@ def record():
         out.write(frame)
         
 
-        cv2.imshow("esc. to stop", frame)
+        cv2.imshow("Press \"ESC\" to stop", frame)
 
         if cv2.waitKey(1) == 27:
             cap.release()

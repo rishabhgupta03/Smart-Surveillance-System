@@ -68,14 +68,14 @@ def train():
 	return
 
 def identify():
-	cap = cv2.VideoCapture(0)
+	cap = cv2.VideoCapture('0')
 
 	filename = "haarcascade_frontalface_default.xml"
 
 	paths = [os.path.join("persons", im) for im in os.listdir("persons")]
 	labelslist = {}
 	for path in paths:
-		labelslist[path.split('/')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
+		labelslist[path.split('\\')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
 
 	print(labelslist)
 	recog = cv2.face.LBPHFaceRecognizer_create()

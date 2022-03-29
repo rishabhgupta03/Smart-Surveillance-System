@@ -1,7 +1,9 @@
 import cv2
 from spot_diff import spot_diff
 import time
-import numpy as np
+from datetime import datetime
+from Email import send_email
+import os
 
 
 def find_motion():
@@ -10,6 +12,8 @@ def find_motion():
 	is_start_done = False
 
 	cap = cv2.VideoCapture(0)
+
+
 
 	check = []
 	
@@ -20,9 +24,31 @@ def find_motion():
 	_, frm1 = cap.read()
 	frm1 = cv2.cvtColor(frm1, cv2.COLOR_BGR2GRAY)
 
-	
+	## simultaneuosly recording #
+	fourcc = cv2.VideoWriter_fourcc(*'XVID')
+	rec_name=datetime.now().strftime("%H:%M:%S")
+	out = cv2.VideoWriter(f'recordings/{rec_name}.avi', fourcc, 20.0, (640, 480))
+	rec_path=os.path.join(os.getcwd(),f'recordings\{rec_name}.avi')
+
+
+	##face recognition
+	filename = "haarcascade_frontalface_default.xml"
+
+	paths = [os.path.join("persons", im) for im in os.listdir("persons")]
+	labelslist = {}
+	for path in paths:
+		labelslist[path.split('\\')[-1].split('-')[2].split('.')[0]] = path.split('\\')[-1].split('-')[0]
+
+	print(labelslist)
+	recog = cv2.face.LBPHFaceRecognizer_create()
+
+	recog.read('model.yml')
+
+	cascade = cv2.CascadeClassifier(filename)
+
 	while True:
 		_, frm2 = cap.read()
+		rec_frame=frm2.copy()
 		frm2 = cv2.cvtColor(frm2, cv2.COLOR_BGR2GRAY)
 
 		diff = cv2.absdiff(frm1, frm2)
@@ -48,7 +74,7 @@ def find_motion():
 
 			end = time.time()
 
-			print(end-start)
+
 			if (end - start) > 4:
 				frame2 = cap.read()
 				cap.release()
@@ -60,6 +86,7 @@ def find_motion():
 
 				else:
 					print("found motion")
+					send_email(toaddr="vishalo2.h2o@gmail.com", body_msg="THEFT ALERT!!",sub_msg="Burgulary Detected", path=rec_path, filename=f"{rec_name}.avi")
 					return
 
 		else:
@@ -70,8 +97,33 @@ def find_motion():
 		_, frm1 = cap.read()
 		frm1 = cv2.cvtColor(frm1, cv2.COLOR_BGR2GRAY)
 
+		# face recognition on recording
+		gray = cv2.cvtColor(rec_frame, cv2.COLOR_BGR2GRAY)
+
+		faces = cascade.detectMultiScale(gray, 1.3, 2)
+
+		for x, y, w, h in faces:
+			cv2.rectangle(rec_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+			roi = gray[y:y + h, x:x + w]
+
+			label = recog.predict(roi)
+
+			if label[1] < 100:
+				cv2.putText(rec_frame, f"{labelslist[str(label[0])]}", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255),
+							3)
+			else:
+				cv2.putText(rec_frame, "unkown", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+		##recording timestam writing
+		cv2.putText(rec_frame, f'{datetime.now().strftime("%D-%H-%M-%S")}', (50, 50), cv2.FONT_HERSHEY_COMPLEX,
+					0.6, (255, 255, 255), 2)
+
+
+		out.write(rec_frame)
+
+
+
 		if cv2.waitKey(1) == 27:
-			
+
 			break
 
 	return

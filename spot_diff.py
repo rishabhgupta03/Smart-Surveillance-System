@@ -1,9 +1,12 @@
 import cv2
-import os
-import time
+from SMS import send_sms
+from Email import send_email
 from skimage.metrics import structural_similarity
 from datetime import datetime
 #import beepy
+
+msg="****THEFT ALERT****\nSomething get stolen.Check your email as soon as possible."
+
 
 def spot_diff(frame1, frame2):
 
@@ -37,11 +40,13 @@ def spot_diff(frame1, frame2):
 		print("nothing stolen")
 		return 0
 
-	cv2.imshow("diff", thresh)
+
 	cv2.imshow("win1", frame1)
+	send_sms(msg)
 #	beepy.beep(sound=4)
 	now=datetime.now()
 	name=now.strftime('%y_%m_%d__%H_%M_%S')
+
 
 
 
