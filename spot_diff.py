@@ -1,14 +1,21 @@
 import cv2
+import BOLT
 from SMS import send_sms
 from Email import send_email
 from skimage.metrics import structural_similarity
 from datetime import datetime
-#import beepy
+import threading
+
+
 
 msg="****THEFT ALERT****\nSomething get stolen.Check your email as soon as possible."
 
 
-def spot_diff(frame1, frame2):
+def spot_diff(frame1, frame2, rec_path,rec_name):
+	t1 = threading.Thread(target=BOLT.alarm)
+	t2 = threading.Thread(target=send_email,
+						  args=["vishalo2.h2o@gmail.com", "THEFT ALERT!!", "Burgulary Detected", rec_path,
+								f"{rec_name}.avi"])
 
 	frame1 = frame1[1]
 	frame2 = frame2[1]
@@ -41,9 +48,11 @@ def spot_diff(frame1, frame2):
 		return 0
 
 
-	cv2.imshow("win1", frame1)
+	cv2.imshow("Stolen Things", frame1)
+	t1.start()
 	send_sms(msg)
-#	beepy.beep(sound=4)
+	t2.start()
+#
 	now=datetime.now()
 	name=now.strftime('%y_%m_%d__%H_%M_%S')
 

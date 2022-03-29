@@ -4,7 +4,7 @@ import tkinter.font as font
 from tkinter import ttk,messagebox
 import re
 
-import Email
+
 from in_out import in_out
 from record import record
 from identify import maincall

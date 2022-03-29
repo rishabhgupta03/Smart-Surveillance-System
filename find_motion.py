@@ -26,8 +26,9 @@ def find_motion():
 
 	## simultaneuosly recording #
 	fourcc = cv2.VideoWriter_fourcc(*'XVID')
-	rec_name=datetime.now().strftime("%H:%M:%S")
-	out = cv2.VideoWriter(f'recordings/{rec_name}.avi', fourcc, 20.0, (640, 480))
+	rec_name=datetime.now().strftime("%H-%M-%S")
+	out = cv2.VideoWriter(f'C:/Users/kunal/PycharmProjects/minor_rough/recordings/{rec_name}.avi', fourcc, 20.0, (640, 480))
+
 	rec_path=os.path.join(os.getcwd(),f'recordings\{rec_name}.avi')
 
 
@@ -79,14 +80,13 @@ def find_motion():
 				frame2 = cap.read()
 				cap.release()
 				cv2.destroyAllWindows()
-				x = spot_diff(frame1, frame2)
+				x = spot_diff(frame1, frame2, rec_path, rec_name)
 				if x == 0:
 					print("running again")
 					return
 
 				else:
 					print("found motion")
-					send_email(toaddr="vishalo2.h2o@gmail.com", body_msg="THEFT ALERT!!",sub_msg="Burgulary Detected", path=rec_path, filename=f"{rec_name}.avi")
 					return
 
 		else:
@@ -113,11 +113,9 @@ def find_motion():
 							3)
 			else:
 				cv2.putText(rec_frame, "unkown", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-		##recording timestam writing
-		cv2.putText(rec_frame, f'{datetime.now().strftime("%D-%H-%M-%S")}', (50, 50), cv2.FONT_HERSHEY_COMPLEX,
-					0.6, (255, 255, 255), 2)
 
-
+		##recording timestamp writing
+		cv2.putText(rec_frame, f'{datetime.now().strftime("%D-%H-%M-%S")}', (50, 50), cv2.FONT_HERSHEY_COMPLEX,0.6, (255, 255, 255), 2)
 		out.write(rec_frame)
 
 
