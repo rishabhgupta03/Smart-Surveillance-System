@@ -12,7 +12,7 @@ from email import encoders
 def send_email(toaddr,body_msg,sub_msg,path="",filename=""):
 
 
-    fromaddr = "smartboxproject7@gmail.com"
+    fromaddr = ""
 
 
 # instance of MIMEMultipart     
@@ -59,7 +59,7 @@ def send_email(toaddr,body_msg,sub_msg,path="",filename=""):
     s.starttls() 
 
 # Authentication 
-    s.login(fromaddr, "Vishal@12345")
+    s.login(fromaddr, "")
 
 # Converts the Multipart msg into a string 
     text = msg.as_string() 
