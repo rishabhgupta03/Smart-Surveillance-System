@@ -1,7 +1,7 @@
 from boltiot import Bolt
 import time
-api_key = "c01360ae-cfe4-4f1a-9931-5c614c5399ec"
-device_id  = "BOLT7420942"
+api_key = ""
+device_id  = ""
 mybolt = Bolt(api_key, device_id)
 
 check_device=mybolt.isOnline()
